@@ -17,6 +17,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({children, headContext}) => {
         {meta.map(({property, content, key, name}) => (
           <meta name={name || ''} content={content || ''} property={property || ''} key={key || ''} />
         ))}
+        <link rel="icon" type="image/png"  href='../../favicon.png'/>
       </Head>
       {children}
     </Container>

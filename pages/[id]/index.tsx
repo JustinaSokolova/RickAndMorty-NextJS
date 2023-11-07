@@ -13,7 +13,6 @@ import PageLayout from '../../app/layouts/page-layout'
 
 const EpisodeItem: React.FC = observer(() => {
   const { episodeItem, loading, error, fetchEpisodeItem } = useStores();
-  console.log(episodeItem)
 
   const router = useRouter();
   const {id} = router.query
