@@ -101,7 +101,7 @@ class EpisodeStore {
     totalCount = 0;
     loading = false;
     error = null;
-    searchQuery = "";
+    // searchQuery = "";
     // countVisible = 5;
     // sortedDate = "";
     constructor(root){
@@ -126,29 +126,14 @@ class EpisodeStore {
     setError = (0,external_mobx_namespaceObject.action)((error)=>{
         this.error = error;
     });
-    setSearchQuery = (0,external_mobx_namespaceObject.action)((searchQuery)=>{
-        this.searchQuery = searchQuery;
-    });
-    // get receivedEpisodes() {
-    //   return this.episodes;
-    // };
-    // get receivedCountEpisodes() {
-    //   return this.totalCount;
-    // }
-    // get receivedEpisodeItem() {
-    //   return this.episodeItem;
-    // };
     get getSortedEpisodes() {
         return this.sortedEpisodes;
-    }
-    get getSearchQuery() {
-        return this.searchQuery;
     }
     hydrate = (data)=>{
         if (!data) return;
         this.setEpisodes(data);
     };
-    fetchEpisodes = async ()=>{
+    fetchEpisodes = async (query)=>{
         try {
             this.setLoading(true);
             const response = await fetch("https://rickandmortyapi.com/graphql", {
@@ -160,7 +145,7 @@ class EpisodeStore {
                     query: (0,external_graphql_namespaceObject.print)(GET_EPISODES),
                     variables: {
                         filter: {
-                            name: this.searchQuery
+                            name: query
                         }
                     }
                 })

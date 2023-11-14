@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Box, Container, Typography, Grid, Button, InputLabel, MenuItem, FormControl, Select, SelectChangeEvent } from "../../../lib/mui";
 
 import EpisodeCard from '../EpisodeCard'
@@ -19,17 +19,14 @@ const EpisodesList: React.FC = observer(() => {
 
 
   const getFilteredEpisodes = (sortBy: string) => {
-      // @ts-ignore
-      const filteredEpisodes = episodes.sort((a ,b) => {
-        let dateA = new Date(Date.parse(a.air_date));
-        let dateB = new Date(Date.parse(b.air_date));
-        // @ts-ignore
+      const filteredEpisodes = episodes.sort((a: Episode, b: Episode) => {
+        let dateA = Date.parse(a.air_date);
+        let dateB = Date.parse(b.air_date);
         if (sortBy === "asc") return dateA - dateB;
-        // @ts-ignore
-        if (sortBy === "dest") return dateB - dateA;
+        return dateB - dateA;
       })
       return setSortedEpisodes(filteredEpisodes);
-    }
+    };
 
 
   const handleChangeSort = (event: SelectChangeEvent) => {
@@ -40,7 +37,7 @@ const EpisodesList: React.FC = observer(() => {
 
   const handleMoreEpisodes = () => {
     setVisible((prevValue) => prevValue + 5);
-  }
+  };
 
 
   const episodesForShow = getSortedEpisodes.length ? getSortedEpisodes : episodes
@@ -53,9 +50,9 @@ const EpisodesList: React.FC = observer(() => {
         component="div" sx={{display: "flex", justifyContent: "center"}}>Oops!! Error: {error} </Typography>
         </>
       )
-    }
+    };
 
-  if (loading) return (<Loader/>)
+  if (loading) return (<Loader/>);
 
   if(totalCount === null) return (
     <>
@@ -63,7 +60,7 @@ const EpisodesList: React.FC = observer(() => {
     noWrap
     component="div" sx={{display: "flex", justifyContent: "center"}}>{"Sorry, there are no episodes with this name :("}</Typography>
     </>
-  )
+  );
 
   return episodes.length ? (
       <>
@@ -103,4 +100,4 @@ const EpisodesList: React.FC = observer(() => {
   )
 })
 
-export default EpisodesList
+export default EpisodesList;

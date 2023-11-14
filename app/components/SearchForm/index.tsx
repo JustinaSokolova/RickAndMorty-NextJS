@@ -1,23 +1,30 @@
 'use client'
 
-import React from 'react';
+import React, {useState} from 'react';
 import {Box, TextField, Button, FormControl} from '../../../lib/mui';
 import { observer } from 'mobx-react-lite';
 import { useStores } from '../../root-store-context';
 
 const SearchForm: React.FC = observer(() => {
-  const { searchQuery, setSearchQuery, fetchEpisodes } = useStores();
+  const { fetchEpisodes } = useStores();
+  const [searchField, setSearchField] = useState('');
 
-  const handleSearch = () => {
-      if(searchQuery.length) fetchEpisodes();
+  const handleSearch = (event: { preventDefault: () => void; }) => {
+    event.preventDefault();
+      if(searchField.length) {
+        console.log(searchField);
+        fetchEpisodes(searchField);
+      }
     };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if(event.code === "Enter") event.preventDefault();
-    if(searchQuery.length) {
-      fetchEpisodes(); 
+    if(searchField.length && event.code === "Enter") {
+      event.preventDefault();
+      console.log(searchField);
+      fetchEpisodes(searchField); 
     }
-  }
+  };
 
   return (
     <>
@@ -30,19 +37,19 @@ const SearchForm: React.FC = observer(() => {
         noValidate
         autoComplete="off"
       >
-      <FormControl fullWidth >
+      <FormControl fullWidth>
      <TextField
           type="text"
           id="outlined-basic" variant="outlined"
           label="Name"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          value={searchField}
+          onChange={(e) => setSearchField(e.target.value)}
           onKeyDown={(event) => handleKeyDown(event)}
           color="primary"
-        />
+        />  
         </FormControl>
      </Box>
-     <Button variant="outlined" type="button" onClick={handleSearch}>Enter</Button> 
+     <Button variant="outlined" onClick={(e) => handleSearch(e)} >Enter</Button> 
      </Box>
      </>
   )

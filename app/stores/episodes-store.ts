@@ -16,7 +16,7 @@ class EpisodeStore {
   totalCount = 0;
   loading = false;
   error = null;
-  searchQuery = "";
+  // searchQuery = "";
   // countVisible = 5;
   // sortedDate = "";
 
@@ -49,38 +49,16 @@ class EpisodeStore {
     this.error = error;
   });
 
-  setSearchQuery = action((searchQuery: string) => {
-    this.searchQuery = searchQuery;
-  });
-
-
-  // get receivedEpisodes() {
-  //   return this.episodes;
-  // };
-
-  // get receivedCountEpisodes() {
-  //   return this.totalCount;
-  // }
-
-  // get receivedEpisodeItem() {
-  //   return this.episodeItem;
-  // };
-
   get getSortedEpisodes() {
     return this.sortedEpisodes;
   }
-
-  get getSearchQuery() {
-    return this.searchQuery;
-  }
-
 
   hydrate = (data: Episode[]) => {
     if (!data) return;
     this.setEpisodes(data);
   };
 
-  fetchEpisodes = async () =>  {
+  fetchEpisodes = async (query: string) =>  {
     try {
       this.setLoading(true);
   
@@ -93,7 +71,7 @@ class EpisodeStore {
           query: print(GET_EPISODES),
           variables: {
             filter: {
-              name: this.searchQuery,
+              name: query,
             }
           },
         }),
